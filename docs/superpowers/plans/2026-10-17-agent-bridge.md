@@ -54,4 +54,4 @@ Release decision: distribute a standalone Python wheel and source archive. No Do
 - [x] Implement commands, continuous reconciliation, examples, package metadata and deployment documentation.
 - [x] Run full tests, Ruff, package build, installed-wheel CLI smoke and a local HTTP/WS transport smoke test.
 - [x] Obtain a fresh review, fix blocking findings and rerun affected checks.
-- [ ] Open and merge a reviewed PR, then publish the source repository. Do not deploy to the owner runtime or publish a package registry release.
+Release status is tracked in [implementation PR #1](https://github.com/enckequity/hermes-paperclip-bridge/pull/1) and [scope issue #65](https://github.com/enckequity/teamshift-hermes/issues/65). Merge the reviewed PR and publish the source repository. Do not deploy to the owner runtime or publish a package registry release.
