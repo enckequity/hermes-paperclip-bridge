@@ -8,5 +8,7 @@ build/
 dist/
 .superpowers/
 .env
+.env.*
+/bridge.toml
 *.sqlite*
 *.lock

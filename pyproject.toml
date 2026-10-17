@@ -1,0 +1,42 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "hermes-paperclip-bridge"
+version = "0.1.0"
+description = "TeamShift Agent Bridge: pair Paperclip agents with native Hermes bots."
+readme = "README.md"
+requires-python = ">=3.11,<3.14"
+license = "Apache-2.0"
+dependencies = [
+  "diffsync==2.2.3",
+  "httpx==0.28.1",
+  "websockets==15.0.1",
+  "filelock>=3.19,<4",
+  "structlog>=20.1,<27",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10", "ruff>=0.12,<1", "build>=1.2,<2"]
+
+[project.scripts]
+teamshift-bridge = "hermes_paperclip_bridge.cli:main"
+
+[project.urls]
+Repository = "https://github.com/enckequity/hermes-paperclip-bridge"
+Issues = "https://github.com/enckequity/hermes-paperclip-bridge/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/hermes_paperclip_bridge"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
