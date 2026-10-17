@@ -17,6 +17,9 @@ class Store:
         self.db.row_factory = sqlite3.Row
         try:
             with self.exclusive():
+                version = self.db.execute("PRAGMA user_version").fetchone()[0]
+                if version not in (0, 1):
+                    raise BridgeError("This state file requires a different bridge version.")
                 self.db.executescript("""
                     CREATE TABLE IF NOT EXISTS settings (key TEXT PRIMARY KEY, value TEXT NOT NULL);
                     CREATE TABLE IF NOT EXISTS bindings (
@@ -32,6 +35,7 @@ class Store:
                 if row is not None and row[0] != scope:
                     raise BridgeError("State scope differs from the configured company or runtime.")
                 self.db.execute("INSERT OR IGNORE INTO settings VALUES ('scope', ?)", (scope,))
+                self.db.execute("PRAGMA user_version=1")
         except Exception:
             self.db.close()
             raise
@@ -48,7 +52,10 @@ class Store:
     @staticmethod
     def _binding(row):
         return Binding(
-            row["id"], row["paperclip_id"], row["profile"], row["baseline"],
+            row["id"],
+            row["paperclip_id"],
+            row["profile"],
+            row["baseline"],
             json.loads(row["pending"]) if row["pending"] else None,
         )
 
@@ -69,7 +76,9 @@ class Store:
                 (binding_id, paperclip_id, profile, baseline),
             )
         except sqlite3.IntegrityError:
-            raise BridgeError("A teammate is already bound. Inspect the existing binding.") from None
+            raise BridgeError(
+                "A teammate is already bound. Inspect the existing binding."
+            ) from None
         return self.get(binding_id)
 
     def pending(self, binding_id, name, paperclip_before, hermes_before):

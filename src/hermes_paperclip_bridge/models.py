@@ -6,6 +6,12 @@ class BridgeError(Exception):
     """A safe, operator-facing failure without remote response or credential material."""
 
 
+def mapping(value):
+    if not isinstance(value, dict):
+        raise BridgeError("The native service returned an unsupported response object.")
+    return value
+
+
 def display_name(value: Any) -> str:
     if (
         not isinstance(value, str)

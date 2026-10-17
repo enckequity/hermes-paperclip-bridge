@@ -110,3 +110,24 @@ def test_state_rejects_duplicate_identity_binding(setup):
     store, _ = setup
     with pytest.raises(BridgeError, match="already"):
         store.bind("pc-1", "another-profile")
+
+
+def test_resolution_only_touches_selected_binding(setup):
+    store, binding = setup
+    other = store.bind("pc-2", "another-profile", baseline="Maya")
+    pc, hm = Endpoint("New Maya"), Endpoint("Maya")
+    results = reconcile(
+        store, pc, hm, apply=True, prefer={binding.id: "paperclip"}, only={binding.id}
+    )
+    assert [r["binding"] for r in results] == [binding.id]
+    assert store.get(other.id).baseline == "Maya"
+
+
+def test_second_process_cannot_open_locked_state(tmp_path):
+    path = tmp_path / "state.sqlite"
+    store = Store(path, scope="test")
+    try:
+        with store.exclusive(), pytest.raises(BridgeError, match="process"):
+            Store(path, scope="test")
+    finally:
+        store.close()

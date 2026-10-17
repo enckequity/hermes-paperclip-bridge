@@ -30,26 +30,28 @@
 Files: src/hermes_paperclip_bridge/{models,state,reconcile}.py; tests/test_reconcile.py.
 Interfaces: View(name, version); Binding(id,paperclip_id,profile,baseline,pending); Store; reconcile(store,paperclip,hermes,apply=False,prefer=None).
 
-- [ ] Write failing tests for one-sided changes, conflicts, equal concurrent edits, dry-run, missing records, interrupted writes and concurrent edits during recovery.
-- [ ] Observe failure, implement the DiffSync model/adapters and SQLite journal, then pass those tests.
-- [ ] Commit the independently tested engine.
+- [x] Write failing tests for one-sided changes, conflicts, equal concurrent edits, dry-run, missing records, interrupted writes and concurrent edits during recovery.
+- [x] Observe failure, implement the DiffSync model/adapters and SQLite journal, then pass those tests.
+- [x] Commit the independently tested engine.
 
 ### Task 2: Native clients and lifecycle
 
 Files: src/hermes_paperclip_bridge/{config,paperclip,hermes,lifecycle}.py; tests/test_clients.py; tests/test_lifecycle.py.
 Interfaces: Paperclip.get/update/create; Hermes.list/update/create_bot; explicit bind/provision/import routines using Store operation receipts.
 
-- [ ] Write failing contract tests for URL/auth restrictions, scope, metadata preservation/CAS, complete model-free Bot creation, partial application and lost create replies.
-- [ ] Implement HTTP and WS clients against pinned native contracts. Read back every mutation and retain uncertain receipts.
-- [ ] Verify execution wiring through native key configuration and a Paperclip secret reference, without saving credential values.
-- [ ] Commit after passing affected tests.
+- [x] Write failing contract tests for URL/auth restrictions, scope, metadata preservation/CAS, complete model-free Bot creation, partial application and lost create replies.
+- [x] Implement HTTP and WS clients against pinned native contracts. Read back every mutation and retain uncertain receipts.
+- [x] Verify execution wiring through native key configuration and a Paperclip secret reference, without saving credential values.
+- [x] Commit after passing affected tests.
 
 ### Task 3: CLI and release
 
-Files: src/hermes_paperclip_bridge/{cli,__init__}.py; examples/bridge.toml; README.md; Dockerfile; tests/test_cli.py; docs/compatibility.md.
+Files: src/hermes_paperclip_bridge/{cli,__init__}.py; examples/bridge.toml; README.md; tests/test_cli.py; docs/compatibility.md.
 
-- [ ] Add failing CLI tests for dry-run defaults, --apply gates, conflict exit status, redacted errors and repeat reconciliation.
-- [ ] Implement commands, continuous reconciliation, examples, package metadata and deployment documentation.
-- [ ] Run full tests, Ruff, package build, installed-wheel CLI smoke and a local HTTP/WS transport smoke test.
-- [ ] Obtain a fresh review, fix blocking findings and rerun affected checks.
+Release decision: distribute a standalone Python wheel and source archive. No Docker daemon is available on this build machine; a container wrapper adds no capability needed by this release.
+
+- [x] Add failing CLI tests for dry-run defaults, --apply gates, conflict exit status, redacted errors and repeat reconciliation.
+- [x] Implement commands, continuous reconciliation, examples, package metadata and deployment documentation.
+- [x] Run full tests, Ruff, package build, installed-wheel CLI smoke and a local HTTP/WS transport smoke test.
+- [x] Obtain a fresh review, fix blocking findings and rerun affected checks.
 - [ ] Open and merge a reviewed PR, then publish the source repository. Do not deploy to the owner runtime or publish a package registry release.

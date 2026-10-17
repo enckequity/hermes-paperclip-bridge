@@ -1,0 +1,15 @@
+state = "bridge.sqlite"
+
+[paperclip]
+url = "http://127.0.0.1:3100"
+company_id = "00000000-0000-0000-0000-000000000001"
+token_env = "PAPERCLIP_BRIDGE_TOKEN"
+
+[hermes]
+# The dashboard management listener, distinct from the execution API listener.
+url = "http://127.0.0.1:9119"
+install_id = "REPLACE_WITH_NATIVE_INSTALL_ID"
+token_env = "HERMES_BRIDGE_SESSION_TOKEN"
+# bearer: provider session + short-lived WebSocket ticket.
+# loopback: native dashboard session token; allowed only on loopback.
+auth_mode = "bearer"
